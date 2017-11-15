@@ -23,8 +23,9 @@ class UsersController < ApplicationController
   end
   
   def show
-    # params[:id] comes from the URL: /users/:id
-    @user = User.find(params[:id])
+      @user = User.find(params[:id])
+      @post = Post.new
+      @posts = Post.where("user_id = ? or receiver_id = ?", @user.id, @user.id)
   end
   
   private
