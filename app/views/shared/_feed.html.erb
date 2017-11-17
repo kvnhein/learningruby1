@@ -1,0 +1,26 @@
+<% if current_user %>
+    <div class="panel panel-default">
+      <div class="panel-body">
+        <% if @user %>
+          <%= form_for(@post, url: receive_post_path(@user.id), :html => { :multipart => true }) do |f| %>
+            
+          <% end %>
+        <% else %>
+          <%= form_for(@post, :html => { :multipart => true }) do |f| %>
+            
+          <% end %>
+        <% end %>
+      </div>
+    </div>
+<% end %>
+<% @posts.each do |post| %>
+    <div class="panel panel-default">
+      <div class="panel-body">
+        <h4 style="margin-top: 0px;">
+          <a href="<%=user_path(post.user)%>"><%= post.user.name %></a>
+         
+        </h4>
+        
+      </div>
+    </div>
+<% end %>
