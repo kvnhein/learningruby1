@@ -2,12 +2,18 @@
     <div class="panel panel-default">
       <div class="panel-body">
         <% if @user %>
-          <%= form_for(@post, url: receive_post_path(@user.id), :html => { :multipart => true }) do |f| %>
-            
+          <%= form_for(@post, url: receive_post_path(@user.id)) do |f| %>
+              <div class="form-group">
+                  <input type="text" name="post[message]" class="form-control" placeholder="What's on your mind?"/>
+              </div>
+              <input type="submit" value="Submit" class="btn btn-primary"/>
           <% end %>
         <% else %>
-          <%= form_for(@post, :html => { :multipart => true }) do |f| %>
-            
+          <%= form_for(@post) do |f| %>
+              <div class="form-group">
+                  <input type="text" name="post[message]" class="form-control" placeholder="What's on your mind?"/>
+              </div>
+              <input type="submit" value="Submit" class="btn btn-primary"/>
           <% end %>
         <% end %>
       </div>
@@ -16,16 +22,13 @@
 <% @posts.each do |post| %>
     <div class="panel panel-default">
       <div class="panel-body">
-        <h4 style="margin-top: 0px;">
-          <a href="<%=user_path(post.user)%>"><%= post.user.name %></a>
-         
-        </h4>
-        <% if post.image.url != '/images/original/missing.png' %>
-          <div align="center" style="margin-bottom: 1em;">
-            <%= image_tag post.image.url, style: "max-width: 100%; max-height: 500px;" %>
-          </div>
-        <% end %>
-        <%= post.message %>
+          <h4 style="margin-top: 0px;">
+              <a href="<%=user_path(post.user)%>"><%= post.user.name %></a>
+              <% if current_user == post.user %>
+                  | <%= link_to 'Delete', delete_post_path(post.id), method: :delete, data: { confirm: 'Are you sure?' } %>
+              <% end %>
+          </h4>
+          <%= post.message %>
       </div>
     </div>
 <% end %>
